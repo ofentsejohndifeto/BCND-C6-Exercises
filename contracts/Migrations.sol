@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 pragma solidity ^0.5.0;
+=======
+pragma solidity ^0.8.19;
+>>>>>>> 8181b37e910ec0f62b67ed44f34e6cb3448f736a
 
 contract Migrations {
   address public owner;
