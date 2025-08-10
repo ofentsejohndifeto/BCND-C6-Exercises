@@ -27,7 +27,6 @@ contract('ExerciseC6A', async (accounts) => {
 
   });
 
-<<<<<<< HEAD
   // it('contract mode has changed', async () => {
   //   //ARRANGEs
   //   let caller = accounts[0];
@@ -40,9 +39,6 @@ contract('ExerciseC6A', async (accounts) => {
   it('function call is made when multi-party threshold is reached', async () => {
 
     let caller = accounts[0];
-=======
-  it('function call is made when multi-party threshold is reached', async () => {
->>>>>>> 8181b37e910ec0f62b67ed44f34e6cb3448f736a
     
     // ARRANGE
     let admin1 = accounts[1];
