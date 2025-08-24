@@ -14,11 +14,13 @@ contract ExerciseC6C {
     /*                                       DATA VARIABLES                                     */
     /********************************************************************************************/
 
+    mapping(address => uint256) authorizedContracts;   //add mapping for authorized contracts
+
     struct Profile {
         string id;
         bool isRegistered;
         bool isAdmin;
-        uint256 sales;
+        uint256 sales;                           //You cannot update this in data structure, needs to be in App if you want to update
         uint256 bonus;
         address wallet;
     }
@@ -58,6 +60,22 @@ contract ExerciseC6C {
     {
         require(msg.sender == contractOwner, "Caller is not contract owner");
         _;
+    }
+
+    modifier isCallerAuthorized()             
+    {
+        require(authorizedContracts[msg.sender] == 1, "Caller contract is not authorized");
+        _;                //any function that needs/expects an outside caller  e.g. addSale()
+    }
+
+    function authorizeContract(address dataContract) external requireContractOwner          ///only contract owner can call
+    {
+        authorizedContracts[dataContract] = 1;              //     
+    }
+
+    function deauthorizeContract(address dataContract) external requireContractOwner          
+    {
+        delete authorizedContracts[dataContract];           //delete instance of authorised contract
     }
 
     /********************************************************************************************/
@@ -124,8 +142,7 @@ contract ExerciseC6C {
                                     uint256 bonus
 
                                 )
-                                internal
-                                requireContractOwner
+                                external ///initially was internal, now it is external to be able to be viewed by App contract
     {
         require(employees[id].isRegistered, "Employee is not registered.");
 
@@ -134,40 +151,6 @@ contract ExerciseC6C {
 
     }
 
-    function calculateBonus
-                            (
-                                uint256 sales
-                            )
-                            internal
-                            view
-                            requireContractOwner
-                            returns(uint256)
-    {
-        if (sales < 100) {
-            return sales.mul(5).div(100);
-        }
-        else if (sales < 500) {
-            return sales.mul(7).div(100);
-        }
-        else {
-            return sales.mul(10).div(100);
-        }
-    }
-
-    function addSale
-                                (
-                                    string id,
-                                    uint256 amount
-                                )
-                                external
-                                requireContractOwner
-    {
-        updateEmployee(
-                        id,
-                        amount,
-                        calculateBonus(amount)
-        );
-    }
-
 
 }
+
